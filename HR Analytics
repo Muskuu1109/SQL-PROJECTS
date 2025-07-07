@@ -1,0 +1,73 @@
+SELECT * 
+FROM hr_analytics
+
+
+SELECT DISTINCT department
+FROM hr_analytics
+
+
+SELECT department, COUNT(*) AS total_employees
+FROM hr_analytics
+WHERE Attrition = 'No'
+GROUP BY department;
+
+
+SELECT AVG(relationshipsatisfaction) AS relationshipsatisfaction
+FROM hr_analytics;
+
+
+SELECT salaryslab, COUNT(*) AS num_employees
+FROM hr_analytics
+GROUP BY salaryslab
+ORDER BY num_employees DESC;
+
+
+SELECT department, COUNT(*) AS total_employees
+FROM hr_analytics
+GROUP BY department
+HAVING COUNT(*) > (
+  SELECT AVG(emp_count) 
+  FROM (
+    SELECT COUNT(*) AS emp_count
+    FROM hr_analytics
+    GROUP BY department
+  ) AS dept_counts
+);
+
+
+SELECT department,
+       ROUND(AVG(jobsatisfaction), 2) AS avg_jobsatisfaction,
+       ROUND(AVG(hourlyrate), 0) AS avg_hourly_rate
+FROM hr_analytics
+GROUP BY department;
+
+
+SELECT department, salaryslab, COUNT(*) AS num_attritions
+FROM hr_analytics
+WHERE attrition = 'Yes'
+GROUP BY department, salaryslab
+ORDER BY num_attritions DESC
+LIMIT 1;
+
+
+SELECT attrition, 
+       ROUND(AVG(dailyrate), 0) AS avg_daily_rate
+FROM hr_analytics
+GROUP BY attrition;
+
+
+
+SELECT empid, department, percentsalaryhike
+FROM hr_analytics
+WHERE attrition = 'No'
+ORDER BY percentsalaryhike DESC
+LIMIT 5;
+
+
+
+SELECT department,
+       ROUND(AVG(jobsatisfaction), 2) AS avg_jobsatisfaction,
+       ROUND(SUM(CASE WHEN attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS attrition_rate_pct
+FROM hr_analytics
+GROUP BY department
+ORDER BY avg_jobsatisfaction DESC;
