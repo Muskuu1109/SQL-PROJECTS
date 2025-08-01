@@ -1,0 +1,44 @@
+SELECT Name, Series, Final_Rank
+FROM squid_game_alice_players_data
+WHERE Status = 'Alive'
+ORDER BY Series, Final_Rank;
+
+SELECT Series, Status, AVG(Age) AS Average_Age
+FROM squid_game_alice_players_data
+GROUP BY Series, Status;
+
+SELECT Series, AVG(Games_Survived) AS Avg_Games_Survived
+FROM squid_game_alice_players_data
+WHERE Status = 'Dead'
+GROUP BY Series;
+
+SELECT Series, Gender,
+       COUNT(CASE WHEN Status = 'Alive' THEN 1 END) * 100.0 / COUNT(*) AS Survival_Rate
+FROM squid_game_alice_players_data
+GROUP BY Series, Gender;
+
+SELECT Name, Debt_Amount
+FROM squid_game_alice_players_data
+WHERE Series = 'Squid Game' AND Status = 'Alive'
+ORDER BY Debt_Amount DESC
+LIMIT 1;
+
+SELECT Series, COUNT(*) AS Female_Count
+FROM players_data
+WHERE Gender = 'Female'
+GROUP BY Series
+ORDER BY Female_Count DESC;
+
+SELECT Series, AVG(Age) AS Average_Age
+FROM squid_game_alice_players_data
+GROUP BY Series
+ORDER BY Average_Age DESC;
+
+SELECT Series, AVG(Games_Survived) AS Avg_Games_Survived
+FROM players_data
+GROUP BY Series;
+
+SELECT Name, Series, Age, Status
+FROM squid_game_alice_players_data
+ORDER BY Age DESC
+LIMIT 3;
